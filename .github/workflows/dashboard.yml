@@ -2,10 +2,13 @@ name: עדכון הדשבורד
 
 on:
   schedule:
-    # GitHub מתזמן לפי UTC. שתי הריצות מכסות את 10:00 בשעון ישראל בחורף ובקיץ,
-    # והשלב הראשון מדלג על הריצה שלא נופלת על 10:00 בישראל.
+    # GitHub מתזמן לפי UTC. כל זוג ריצות מכסה שעה אחת בשעון ישראל בחורף ובקיץ:
+    # 10:00 (אחרי עדכון "מדדי גוגל" ב־09:00) ו־14:30 (אחרי העדכון של 14:00).
+    # השלב הראשון מדלג על הריצה שלא נופלת על השעה הנכונה בישראל.
     - cron: "0 7 * * *"
     - cron: "0 8 * * *"
+    - cron: "30 11 * * *"
+    - cron: "30 12 * * *"
   workflow_dispatch: {}   # כפתור "Run workflow" לעדכון ידני
   push:
     branches: [main]
@@ -30,9 +33,9 @@ jobs:
         id: gate
         run: |
           HOUR=$(TZ=Asia/Jerusalem date +%H)
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "$HOUR" != "10" ]; then
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$HOUR" != "10" ] && [ "$HOUR" != "14" ]; then
             echo "run=false" >> "$GITHUB_OUTPUT"
-            echo "השעה בישראל היא $HOUR, מדלגים. הריצה השנייה תעדכן ב-10:00."
+            echo "השעה בישראל היא $HOUR, מדלגים. הריצה המקבילה תעדכן בשעה הנכונה."
           else
             echo "run=true" >> "$GITHUB_OUTPUT"
           fi
