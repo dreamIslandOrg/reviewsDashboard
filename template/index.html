@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>דרים איילנד · ביקורות גוגל</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #0F3440;
+    --ink-2: #3D5A63;
+    --muted: #6B8187;
+    --line: #D6E1E0;
+    --mist: #EDF2F1;
+    --paper: #FFFFFF;
+    --spring: #1E7F8E;
+    --spring-soft: #D5ECEE;
+    --praise: #2E8B67;
+    --praise-soft: #DCEFE6;
+    --complaint: #B4413A;
+    --complaint-soft: #F6E0DE;
+    --mixed: #C88A1A;
+    --mixed-soft: #F7ECD5;
+    --serif: "Frank Ruhl Libre", "David", "Times New Roman", serif;
+    --sans: "Assistant", "Arial Hebrew", Arial, sans-serif;
+    --r-lg: 18px;
+    --r-sm: 8px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--mist);
+    color: var(--ink);
+    font: 16px/1.55 var(--sans);
+    padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 20px 16px 48px; }
+  h1, h2 { font-family: var(--serif); font-weight: 700; margin: 0; letter-spacing: 0; }
+  h2 { font-size: 1.45rem; line-height: 1.2; }
+  .sub { color: var(--muted); font-size: .92rem; margin: 4px 0 0; }
+  a { color: var(--spring); }
+  :focus-visible { outline: 3px solid var(--spring); outline-offset: 2px; border-radius: 4px; }
+
+  /* כותרת */
+  header.top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+  header.top h1 { font-size: 1.15rem; font-weight: 700; color: var(--ink-2); }
+  header.top .stamp { color: var(--muted); font-size: .85rem; }
+
+  /* הגיבור: הדירוג בגוגל */
+  .hero {
+    background: var(--ink);
+    color: #fff;
+    border-radius: var(--r-lg);
+    padding: 26px 22px 24px;
+    display: grid;
+    gap: 22px;
+    grid-template-columns: 1fr;
+  }
+  .hero .score { display: flex; align-items: flex-end; gap: 16px; }
+  .hero .num { font-family: var(--serif); font-weight: 900; font-size: clamp(4.6rem, 18vw, 7.5rem); line-height: .85; }
+  .hero .meta { padding-bottom: 6px; }
+  .stars { display: inline-flex; gap: 2px; }
+  .stars svg { width: 20px; height: 20px; }
+  .hero .meta p { margin: 6px 0 0; color: #B9D4D8; font-size: .95rem; }
+  .ladder h3 { font: 600 1rem/1.3 var(--sans); margin: 0 0 12px; color: #DCEBEC; }
+  .rung { display: grid; grid-template-columns: 4.2rem 1fr; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid rgba(255,255,255,.14); }
+  .rung:first-of-type { border-top: 0; }
+  .rung .t { font-family: var(--serif); font-weight: 700; font-size: 1.6rem; }
+  .rung .n { font-size: 1.05rem; }
+  .rung .n b { font-family: var(--serif); font-size: 1.35rem; }
+  .trend-note {
+    margin: 14px 0 0; padding: 12px 14px; border-radius: var(--r-sm);
+    background: rgba(255,255,255,.08); color: #E8F1F2; font-size: .93rem;
+  }
+  .trend-note.down { background: rgba(180,65,58,.28); }
+  @media (min-width: 820px) {
+    .hero { grid-template-columns: 1fr 1.15fr; padding: 32px 34px; align-items: center; }
+  }
+
+  /* פס מדדים */
+  .strip {
+    margin: 16px 0 0; background: var(--paper); border-radius: var(--r-lg);
+    display: grid; grid-template-columns: repeat(2, 1fr);
+  }
+  .strip .s { padding: 16px 18px; border-top: 1px solid var(--line); }
+  .strip .s:nth-child(-n+2) { border-top: 0; }
+  .strip .s:nth-child(even) { border-right: 1px solid var(--line); }
+  .strip .v { font-family: var(--serif); font-weight: 700; font-size: 1.9rem; line-height: 1.1; }
+  .strip .l { color: var(--muted); font-size: .88rem; }
+  .strip .s.alert .v { color: var(--complaint); }
+  .strip a.s { color: inherit; text-decoration: none; display: block; }
+  .strip a.s:hover .l { text-decoration: underline; }
+  @media (min-width: 820px) {
+    .strip { grid-template-columns: repeat(4, 1fr); }
+    .strip .s { border-top: 0; }
+    .strip .s + .s { border-right: 1px solid var(--line); }
+  }
+
+  section.block { margin-top: 34px; }
+  section.block > header { margin-bottom: 14px; }
+  .panel { background: var(--paper); border-radius: var(--r-lg); padding: 20px 18px; }
+
+  /* שתי עוגות */
+  .pair { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 820px) { .pair { grid-template-columns: 1fr 1fr; } }
+  .donut-card h3 { font: 700 1.1rem/1.3 var(--sans); margin: 0 0 2px; display: flex; align-items: center; gap: 8px; }
+  .donut-card h3 i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .donut-card .total { color: var(--muted); font-size: .88rem; margin: 0 0 12px; }
+  .donut-body { display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: center; }
+  @media (max-width: 420px) { .donut-body { grid-template-columns: 1fr; justify-items: center; } }
+  .donut-body svg { width: 150px; height: 150px; }
+  .legend { list-style: none; margin: 0; padding: 0; width: 100%; }
+  .legend li { display: grid; grid-template-columns: 12px 1fr 2.2rem 2.6rem; gap: 8px; align-items: center; padding: 4px 0; font-size: .92rem; }
+  .legend li .sw { width: 12px; height: 12px; border-radius: 3px; }
+  .legend li .c { font-weight: 700; font-variant-numeric: tabular-nums; text-align: left; }
+  .legend li .pc { color: var(--muted); font-variant-numeric: tabular-nums; text-align: left; font-size: .86rem; }
+  .legend li.rest { color: var(--muted); }
+
+  /* תחומים: פס דו-כיווני */
+  .dom { width: 100%; border-collapse: collapse; font-size: .93rem; }
+  .dom th { text-align: right; font-weight: 600; color: var(--muted); font-size: .82rem; padding: 0 0 8px; }
+  .dom td { padding: 7px 0; border-top: 1px solid var(--line); vertical-align: middle; }
+  .dom td.name { width: 9.5rem; padding-left: 10px; font-weight: 600; }
+  .dom td.net { width: 3.2rem; text-align: left; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .dom td.net.neg { color: var(--complaint); }
+  .dom td.net.pos { color: var(--praise); }
+  .div { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 0; }
+  .div .side { display: flex; align-items: center; gap: 6px; height: 18px; }
+  .div .side.p { justify-content: flex-start; border-left: 1px solid var(--ink-2); padding-right: 0; }
+  .div .side.c { justify-content: flex-start; padding-right: 0; }
+  .div .bar { height: 14px; border-radius: 3px; min-width: 2px; }
+  .div .p .bar { background: var(--praise); border-radius: 3px 0 0 3px; }
+  .div .c .bar { background: var(--complaint); border-radius: 0 3px 3px 0; }
+  .div .num { font-size: .8rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .div .side.p { flex-direction: row-reverse; }
+  .dom-key { display: flex; gap: 18px; color: var(--muted); font-size: .84rem; margin-top: 10px; }
+  .dom-key span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-left: 6px; vertical-align: -1px; }
+  .dom-key .kp::before { background: var(--praise); }
+  .dom-key .kc::before { background: var(--complaint); }
+  @media (max-width: 480px) { .dom td.name { width: 7.2rem; font-size: .86rem; } }
+
+  /* מגמה */
+  .trend svg { width: 100%; height: auto; display: block; }
+  .trend .cap { color: var(--muted); font-size: .84rem; margin: 8px 0 0; }
+  .trend-key { display: flex; gap: 18px; color: var(--ink-2); font-size: .86rem; margin-bottom: 8px; flex-wrap: wrap; }
+  .trend-key span { display: inline-flex; align-items: center; gap: 6px; }
+  .trend-key .kb { width: 12px; height: 12px; background: var(--spring-soft); border: 1px solid var(--spring); border-radius: 2px; }
+  .trend-key .kl { width: 16px; height: 3px; background: var(--ink); border-radius: 2px; }
+
+  /* פילוח לפי סיווג */
+  .split { display: flex; height: 16px; border-radius: 8px; overflow: hidden; margin: 4px 0 14px; }
+  .split span { display: block; height: 100%; }
+  .cls-rows { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .cls-rows > div { border-top: 3px solid; padding-top: 8px; }
+  .cls-rows .v { font-family: var(--serif); font-weight: 700; font-size: 1.5rem; }
+  .cls-rows .l { color: var(--muted); font-size: .84rem; line-height: 1.35; }
+
+  /* ביקורות שלא נענו */
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .chip {
+    font: 600 .92rem var(--sans); border: 1px solid var(--line); background: var(--paper); color: var(--ink);
+    border-radius: 999px; padding: 7px 14px; cursor: pointer; min-height: 40px;
+  }
+  .chip[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .chip .k { opacity: .7; font-weight: 400; margin-right: 4px; }
+  .rev { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .rev li { background: var(--paper); border-radius: 12px; padding: 14px 16px; border-right: 4px solid var(--line); }
+  .rev li.neg { border-right-color: var(--complaint); }
+  .rev li.mix { border-right-color: var(--mixed); }
+  .rev li.pos { border-right-color: var(--praise); }
+  .rev .h { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .rev .who { font-weight: 700; }
+  .rev .when { color: var(--muted); font-size: .86rem; }
+  .rev .tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; align-items: center; }
+  .tag { font-size: .78rem; font-weight: 600; padding: 2px 8px; border-radius: 6px; }
+  .tag.neg { background: var(--complaint-soft); color: #8B2C26; }
+  .tag.mix { background: var(--mixed-soft); color: #7A5410; }
+  .tag.pos { background: var(--praise-soft); color: #1F6248; }
+  .tag.area { background: var(--mist); color: var(--ink-2); }
+  .rev .txt { margin: 4px 0 0; white-space: pre-line; color: var(--ink-2); font-size: .95rem; }
+  .rev .txt.clamp { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .rev .more { background: none; border: 0; padding: 4px 0; color: var(--spring); font: 600 .9rem var(--sans); cursor: pointer; }
+  .rev .empty { color: var(--muted); font-style: italic; }
+  .none { background: var(--paper); border-radius: 12px; padding: 18px; color: var(--muted); }
+
+  footer.foot { margin-top: 36px; color: var(--muted); font-size: .84rem; display: grid; gap: 4px; }
+  .ok { color: var(--praise); font-weight: 600; }
+  .warn { color: var(--complaint); font-weight: 600; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero .num { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>דרים איילנד · ביקורות גוגל</h1>
+    <div class="stamp" id="stamp"></div>
+  </header>
+
+  <section class="hero" aria-labelledby="h-rating">
+    <div>
+      <h2 id="h-rating" class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">הדירוג בגוגל</h2>
+      <div class="score">
+        <div class="num" id="g-num">–</div>
+        <div class="meta">
+          <div class="stars" id="g-stars" aria-hidden="true"></div>
+          <p id="g-total"></p>
+        </div>
+      </div>
+      <p class="trend-note" id="trend-note" hidden></p>
+    </div>
+    <div class="ladder">
+      <h3>כמה ביקורות של 5 כוכבים צריך כדי לעלות</h3>
+      <div id="rungs"></div>
+    </div>
+  </section>
+
+  <div class="strip" id="strip"></div>
+
+  <section class="block" aria-labelledby="h-pies">
+    <header>
+      <h2 id="h-pies">מה משבחים ועל מה מתלוננים</h2>
+      <p class="sub" id="pies-sub"></p>
+    </header>
+    <div class="pair">
+      <div class="panel donut-card" id="pie-praise"></div>
+      <div class="panel donut-card" id="pie-complaints"></div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-dom">
+    <header>
+      <h2 id="h-dom">כל תחום, שבחים מול תלונות</h2>
+      <p class="sub">המספר בצד שמאל הוא המאזן: שבחים פחות תלונות.</p>
+    </header>
+    <div class="panel">
+      <table class="dom" id="dom"></table>
+      <div class="dom-key"><span class="kp">שבחים</span><span class="kc">תלונות</span></div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-trend">
+    <header>
+      <h2 id="h-trend">מגמה חודשית</h2>
+      <p class="sub">מספר הביקורות בכל חודש, והדירוג הממוצע שלהן.</p>
+    </header>
+    <div class="panel trend">
+      <div class="trend-key"><span><i class="kb"></i>מספר ביקורות</span><span><i class="kl"></i>דירוג ממוצע</span></div>
+      <div id="trend"></div>
+      <p class="cap" id="trend-cap"></p>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-cls">
+    <header><h2 id="h-cls">פילוח לפי סיווג</h2></header>
+    <div class="panel">
+      <div class="split" id="split" role="img"></div>
+      <div class="cls-rows" id="cls-rows"></div>
+    </div>
+  </section>
+
+  <section class="block" id="unanswered" aria-labelledby="h-un">
+    <header>
+      <h2 id="h-un">ביקורות שלא נענו</h2>
+      <p class="sub">ביקורות שאין להן תגובה מהעסק בגוגל, מהחדשה לישנה.</p>
+    </header>
+    <div class="chips" role="group" aria-label="סינון לפי סיווג" id="chips"></div>
+    <ul class="rev" id="rev"></ul>
+    <div id="rev-more"></div>
+  </section>
+
+  <footer class="foot" id="foot"></footer>
+</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+
+(function () {
+  if (!DATA) { document.body.innerHTML = '<p style="padding:24px">אין נתונים. הדשבורד נבנה בלי חיבור לגיליון.</p>'; return; }
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n, d = 0) => n == null ? '–' : Number(n).toLocaleString('he-IL', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const pct = (x) => x == null ? '–' : Math.round(x * 100) + '%';
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const MONTHS = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+  const CLS = { 'שלילית': 'neg', 'מעורבת': 'mix', 'חיובית': 'pos' };
+  const PALETTE = ['#1E7F8E','#2E8B67','#C88A1A','#5C6BA8','#B4413A','#8A6A9E','#3E9AA6','#9C7A45','#C46A86','#6A8F3A','#D19A5A','#8FA3A7'];
+
+  $('stamp').textContent = 'עודכן ' + DATA.generatedAt;
+
+  // ---- הדירוג בגוגל
+  const g = DATA.google || {};
+  $('g-num').textContent = g.avg != null ? fmt(g.avg, 1) : '–';
+  const stars = $('g-stars');
+  for (let i = 1; i <= 5; i++) {
+    const fill = Math.max(0, Math.min(1, (g.avg || 0) - (i - 1)));
+    stars.insertAdjacentHTML('beforeend',
+      `<svg viewBox="0 0 24 24"><defs><linearGradient id="sg${i}" x1="1" x2="0"><stop offset="${fill*100}%" stop-color="#F2C14E"/><stop offset="${fill*100}%" stop-color="rgba(255,255,255,.25)"/></linearGradient></defs><path fill="url(#sg${i})" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z"/></svg>`);
+  }
+  $('g-total').textContent = g.total ? `${fmt(g.total)} ביקורות בגוגל, מכל הזמנים` : 'נתוני גוגל לא זמינים';
+
+  const rungs = $('rungs');
+  if (g.steps && g.steps.length) {
+    g.steps.forEach(s => {
+      rungs.insertAdjacentHTML('beforeend',
+        `<div class="rung"><div class="t">${fmt(s.target, s.target * 10 % 1 ? 2 : 1)}</div>
+         <div class="n"><b>${fmt(s.fiveStarNeeded)}</b> ביקורות של 5 כוכבים, בלי אף ביקורת נמוכה יותר</div></div>`);
+    });
+  } else {
+    rungs.innerHTML = '<p>אין נתוני גוגל לחישוב.</p>';
+  }
+  const k = DATA.kpi || {};
+  if (g.avg != null && k.avg != null) {
+    const note = $('trend-note');
+    const down = k.avg < g.avg - 0.02;
+    note.hidden = false;
+    note.className = 'trend-note' + (down ? ' down' : '');
+    note.textContent = down
+      ? `מ־${DATA.period.from} עד ${DATA.period.to} הדירוג הממוצע היה ${fmt(k.avg, 2)}, נמוך מהדירוג הכללי. אם הקצב יימשך, הדירוג בגוגל יירד לאט.`
+      : `מ־${DATA.period.from} עד ${DATA.period.to} הדירוג הממוצע היה ${fmt(k.avg, 2)}, ברמת הדירוג הכללי או מעליו.`;
+  }
+
+  // ---- פס מדדים
+  const cls = Object.fromEntries((DATA.classes || []).map(c => [c.name, c]));
+  const strip = $('strip');
+  const stat = (v, l, extra = '', href = '') => href
+    ? `<a class="s ${extra}" href="${href}"><div class="v">${v}</div><div class="l">${l}</div></a>`
+    : `<div class="s ${extra}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+  strip.innerHTML =
+    stat(fmt(k.total), `ביקורות בתקופה, ${fmt(k.withText)} עם טקסט`) +
+    stat(pct(cls['חיובית']?.share), 'חיוביות') +
+    stat(pct(cls['שלילית']?.share), 'שליליות') +
+    stat(fmt(k.unansweredNegMixed), 'שליליות ומעורבות בלי מענה', k.unansweredNegMixed ? 'alert' : '', '#unanswered');
+
+  // ---- עוגות
+  $('pies-sub').textContent = `לפי תחומים, ב־${fmt(k.total)} הביקורות מ־${DATA.period.from} עד ${DATA.period.to}. ביקורת אחת יכולה להזכיר כמה תחומים.`;
+  const doms = DATA.domains || [];
+  const colorOf = {};
+  doms.forEach((d, i) => colorOf[d.name] = PALETTE[i % PALETTE.length]);
+
+  function arc(cx, cy, r, a0, a1) {
+    const p = (a) => [cx + r * Math.sin(a), cy - r * Math.cos(a)];
+    const [x0, y0] = p(a0), [x1, y1] = p(a1);
+    return `M${x0} ${y0} A${r} ${r} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${x1} ${y1}`;
+  }
+  function donut(el, title, key, accent) {
+    const rows = doms.map(d => ({ name: d.name, v: d[key] })).filter(d => d.v > 0).sort((a, b) => b.v - a.v);
+    const total = rows.reduce((s, d) => s + d.v, 0);
+    let svg = `<svg viewBox="0 0 120 120" role="img" aria-label="${esc(title)}">`;
+    if (!total) svg += `<circle cx="60" cy="60" r="44" fill="none" stroke="var(--line)" stroke-width="20"/>`;
+    let a = 0;
+    rows.forEach(d => {
+      const span = d.v / total * Math.PI * 2;
+      const gap = rows.length > 1 ? 0.012 : 0;
+      if (span >= Math.PI * 2 - 1e-6) svg += `<circle cx="60" cy="60" r="44" fill="none" stroke="${colorOf[d.name]}" stroke-width="20"/>`;
+      else svg += `<path d="${arc(60, 60, 44, a + gap, a + span - gap)}" fill="none" stroke="${colorOf[d.name]}" stroke-width="20"/>`;
+      a += span;
+    });
+    svg += `<text x="60" y="58" text-anchor="middle" font-family="Frank Ruhl Libre, serif" font-weight="700" font-size="22" fill="#0F3440">${fmt(total)}</text>`;
+    svg += `<text x="60" y="74" text-anchor="middle" font-family="Assistant, sans-serif" font-size="9" fill="#6B8187">אזכורים</text></svg>`;
+    const top = rows.slice(0, 6), rest = rows.slice(6);
+    let leg = top.map(d => `<li><span class="sw" style="background:${colorOf[d.name]}"></span><span>${esc(d.name)}</span><span class="c">${fmt(d.v)}</span><span class="pc">${Math.round(d.v / total * 100)}%</span></li>`).join('');
+    if (rest.length) leg += `<li class="rest"><span></span><span>עוד ${rest.length} תחומים</span><span class="c">${fmt(rest.reduce((s, d) => s + d.v, 0))}</span><span></span></li>`;
+    el.innerHTML = `<h3><i style="background:${accent}"></i>${esc(title)}</h3><p class="total">${total ? fmt(total) + ' אזכורים' : 'אין עדיין אזכורים'}</p>
+      <div class="donut-body">${svg}<ul class="legend">${leg}</ul></div>`;
+  }
+  donut($('pie-praise'), 'מה משבחים', 'praise', 'var(--praise)');
+  donut($('pie-complaints'), 'על מה מתלוננים', 'complaints', 'var(--complaint)');
+
+  // ---- תחומים, פס דו-כיווני
+  const maxSide = Math.max(1, ...doms.map(d => Math.max(d.praise, d.complaints)));
+  const sorted = [...doms].sort((a, b) => (b.praise + b.complaints) - (a.praise + a.complaints));
+  $('dom').innerHTML = `<thead><tr><th>תחום</th><th><div class="div"><span>שבחים</span><span style="padding-right:6px">תלונות</span></div></th><th style="text-align:left">מאזן</th></tr></thead><tbody>` +
+    sorted.map(d => {
+      const net = d.praise - d.complaints;
+      return `<tr><td class="name">${esc(d.name)}</td><td><div class="div">
+        <div class="side p"><span class="bar" style="width:${d.praise / maxSide * 82}%"></span><span class="num">${d.praise}</span></div>
+        <div class="side c"><span class="bar" style="width:${d.complaints / maxSide * 82}%"></span><span class="num">${d.complaints}</span></div>
+      </div></td><td class="net ${net < 0 ? 'neg' : net > 0 ? 'pos' : ''}">${net > 0 ? '+' : ''}${net}</td></tr>`;
+    }).join('') + '</tbody>';
+
+  // ---- מגמה חודשית
+  const mm = DATA.monthly || [];
+  if (mm.length) {
+    const W = 640, H = 260, pl = 34, pr = 34, pt = 18, pb = 34;
+    const iw = W - pl - pr, ih = H - pt - pb;
+    const maxC = Math.max(...mm.map(m => m.count));
+    const bw = iw / mm.length;
+    // ציר X מימין לשמאל: החודש הראשון בצד ימין
+    const x = (i) => W - pr - bw * (i + 0.5);
+    const barTop = pt + ih * 0.42;             // העמודות תופסות את 58% התחתונים
+    const yC = (v) => pt + ih - v / maxC * (pt + ih - barTop);
+    const yR = (v) => pt + ih - (v - 1) / 4 * ih;
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="מגמה חודשית" direction="ltr">`;
+    [1, 2, 3, 4, 5].forEach(r => {
+      s += `<line x1="${pl}" x2="${W - pr}" y1="${yR(r)}" y2="${yR(r)}" stroke="#E3EBEA"/>`;
+      s += `<text x="${pl - 8}" y="${yR(r) + 4}" font-size="11" fill="#6B8187" text-anchor="end" font-family="Assistant">${r}★</text>`;
+    });
+    mm.forEach((m, i) => {
+      const h = pt + ih - yC(m.count);
+      s += `<rect x="${x(i) - bw * 0.3}" y="${yC(m.count)}" width="${bw * 0.6}" height="${h}" rx="4" fill="#D5ECEE" stroke="#1E7F8E" stroke-width="1"/>`;
+      s += `<text x="${x(i)}" y="${pt + ih - 8}" font-size="12" fill="#1E7F8E" text-anchor="middle" font-family="Assistant" font-weight="700">${m.count}</text>`;
+      const mo = m.month.split('-')[1];
+      s += `<text x="${x(i)}" y="${H - 12}" font-size="12" fill="#3D5A63" text-anchor="middle" font-family="Assistant">${MONTHS[+mo - 1]}</text>`;
+    });
+    const pts = mm.map((m, i) => m.avg != null ? `${x(i)},${yR(m.avg)}` : null).filter(Boolean);
+    s += `<polyline points="${pts.join(' ')}" fill="none" stroke="#0F3440" stroke-width="2.5" stroke-linejoin="round"/>`;
+    mm.forEach((m, i) => {
+      if (m.avg == null) return;
+      s += `<circle cx="${x(i)}" cy="${yR(m.avg)}" r="4.5" fill="#fff" stroke="#0F3440" stroke-width="2.5"/>`;
+      s += `<text x="${x(i)}" y="${yR(m.avg) - 11}" font-size="13" fill="#0F3440" text-anchor="middle" font-family="Frank Ruhl Libre, serif" font-weight="700">${fmt(m.avg, 1)}</text>`;
+    });
+    s += `</svg>`;
+    $('trend').innerHTML = s;
+    const worst = mm.filter(m => m.count >= 10).sort((a, b) => a.avg - b.avg)[0];
+    const [fy, fm] = mm[0].month.split('-'); const [ly, lm] = mm[mm.length - 1].month.split('-');
+    $('trend-cap').textContent = `${MONTHS[+fm - 1]} ו${MONTHS[+lm - 1]} חלקיים: הנתונים מתחילים ב־${DATA.period.from} ומסתיימים ב־${DATA.period.to}.` +
+      (worst ? ` החודש החלש ביותר: ${MONTHS[+worst.month.split('-')[1] - 1]}, עם דירוג ממוצע ${fmt(worst.avg, 2)}.` : '');
+  }
+
+  // ---- סיווג
+  const order = ['חיובית', 'מעורבת', 'שלילית'];
+  const col = { 'חיובית': 'var(--praise)', 'מעורבת': 'var(--mixed)', 'שלילית': 'var(--complaint)' };
+  $('split').innerHTML = order.map(n => `<span style="width:${(cls[n]?.share || 0) * 100}%;background:${col[n]}"></span>`).join('');
+  $('split').setAttribute('aria-label', order.map(n => `${n} ${pct(cls[n]?.share)}`).join(', '));
+  $('cls-rows').innerHTML = order.map(n => {
+    const c = cls[n] || {};
+    return `<div style="border-color:${col[n]}"><div class="v">${fmt(c.count)}</div>
+      <div class="l">${n} · ${pct(c.share)}<br>דירוג ממוצע ${fmt(c.avg, 1)}<br>${fmt(c.unanswered)} בלי מענה</div></div>`;
+  }).join('');
+
+  // ---- ביקורות שלא נענו
+  const un = DATA.unanswered || [];
+  const counts = { 'הכול': un.length };
+  order.forEach(n => counts[n] = un.filter(r => r.cls === n).length);
+  let current = counts['שלילית'] ? 'שלילית' : 'הכול';
+  let shown = 20;
+  const chips = $('chips');
+  ['שלילית', 'מעורבת', 'חיובית', 'הכול'].forEach(n => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.type = 'button'; b.dataset.f = n;
+    b.innerHTML = `${n}<span class="k">${counts[n]}</span>`;
+    b.addEventListener('click', () => { current = n; shown = 20; renderList(); });
+    chips.appendChild(b);
+  });
+  const stars5 = (r) => r ? '★'.repeat(r) + '☆'.repeat(5 - r) : '';
+  function renderList() {
+    chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.f === current));
+    const list = current === 'הכול' ? un : un.filter(r => r.cls === current);
+    const ul = $('rev');
+    if (!list.length) { ul.innerHTML = ''; $('rev-more').innerHTML = `<div class="none">אין ביקורות שלא נענו בסיווג הזה.</div>`; return; }
+    ul.innerHTML = list.slice(0, shown).map((r, i) => {
+      const c = CLS[r.cls] || '';
+      const long = (r.text || '').length > 260;
+      return `<li class="${c}"><div class="h"><span class="who">${esc(r.name)}</span><span class="when">${esc(r.date)} · <span aria-label="דירוג ${r.rating}">${stars5(r.rating)}</span></span></div>
+        <div class="tags">${r.cls ? `<span class="tag ${c}">${esc(r.cls)}</span>` : ''}${(r.complaints || []).map(d => `<span class="tag area">${esc(d)}</span>`).join('')}</div>
+        ${r.text ? `<p class="txt${long ? ' clamp' : ''}" id="t${i}">${esc(r.text)}</p>${long ? `<button class="more" type="button" aria-controls="t${i}" aria-expanded="false">הצגת הביקורת המלאה</button>` : ''}` : `<p class="txt empty">דירוג בלי טקסט</p>`}</li>`;
+    }).join('');
+    ul.querySelectorAll('.more').forEach(btn => btn.addEventListener('click', () => {
+      const t = document.getElementById(btn.getAttribute('aria-controls'));
+      const open = t.classList.toggle('clamp') === false;
+      btn.setAttribute('aria-expanded', open);
+      btn.textContent = open ? 'קיצור' : 'הצגת הביקורת המלאה';
+    }));
+    const moreBox = $('rev-more');
+    moreBox.innerHTML = list.length > shown ? `<button class="chip" type="button" style="margin-top:12px">הצגת עוד ${Math.min(20, list.length - shown)} מתוך ${list.length - shown} שנותרו</button>` : '';
+    const mb = moreBox.querySelector('button');
+    if (mb) mb.addEventListener('click', () => { shown += 20; renderList(); });
+  }
+  renderList();
+
+  // ---- כותרת תחתונה ובדיקת תקינות
+  const ch = DATA.checks || {};
+  const issues = [];
+  if (ch.unknownDomains?.length) issues.push(`שמות תחומים לא מוכרים: ${ch.unknownDomains.join(', ')}`);
+  if (ch.positiveWithComplaints) issues.push(`${ch.positiveWithComplaints} ביקורות חיוביות עם תחום תלונה`);
+  if (ch.negativeNoDomain) issues.push(`${ch.negativeNoDomain} ביקורות שליליות בלי תחום תלונה`);
+  if (ch.unclassified) issues.push(`${ch.unclassified} ביקורות בלי סיווג`);
+  $('foot').innerHTML =
+    `<div>${issues.length ? `<span class="warn">בדיקת תקינות: ${esc(issues.join(' · '))}</span>` : '<span class="ok">בדיקת תקינות: הכול תקין</span>'}</div>
+     <div>נתוני התקופה: ביקורות מ־${DATA.period.from} עד ${DATA.period.to}, כל ביקורת נספרת פעם אחת. הדירוג הכללי ומספר הביקורות: מגוגל${g.updated ? ', עודכנו ' + esc(g.updated) : ''}.</div>
+     <div>הדשבורד מתעדכן כל בוקר ב־10:00.</div>`;
+})();
+</script>
+</body>
+</html>
