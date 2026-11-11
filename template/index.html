@@ -486,7 +486,7 @@ const DATA = /*__DATA__*/null;
   $('foot').innerHTML =
     `<div>${issues.length ? `<span class="warn">בדיקת תקינות: ${esc(issues.join(' · '))}</span>` : '<span class="ok">בדיקת תקינות: הכול תקין</span>'}</div>
      <div>נתוני התקופה: ביקורות מ־${DATA.period.from} עד ${DATA.period.to}, כל ביקורת נספרת פעם אחת. הדירוג הכללי ומספר הביקורות: מגוגל${g.updated ? ', עודכנו ' + esc(g.updated) : ''}.</div>
-     <div>הדשבורד מתעדכן כל בוקר ב־10:00.</div>`;
+     <div>הדשבורד מתעדכן כל יום ב־10:00 וב־14:30.</div>`;
 })();
 </script>
 </body>
