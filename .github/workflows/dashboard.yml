@@ -1,0 +1,89 @@
+name: עדכון הדשבורד
+
+on:
+  schedule:
+    # GitHub מתזמן לפי UTC. שתי הריצות מכסות את 10:00 בשעון ישראל בחורף ובקיץ,
+    # והשלב הראשון מדלג על הריצה שלא נופלת על 10:00 בישראל.
+    - cron: "0 7 * * *"
+    - cron: "0 8 * * *"
+  workflow_dispatch: {}   # כפתור "Run workflow" לעדכון ידני
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: בדיקת שעה בישראל
+        id: gate
+        run: |
+          HOUR=$(TZ=Asia/Jerusalem date +%H)
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$HOUR" != "10" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "השעה בישראל היא $HOUR, מדלגים. הריצה השנייה תעדכן ב-10:00."
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+
+      - name: התקנה
+        if: steps.gate.outputs.run == 'true'
+        run: pip install -r requirements.txt
+
+      - name: בניית הדשבורד מהגיליון
+        if: steps.gate.outputs.run == 'true'
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+        run: python scripts/build.py
+
+      - uses: actions/setup-node@v4
+        if: steps.gate.outputs.run == 'true'
+        with:
+          node-version: "20"
+
+      - name: הצפנה בסיסמה
+        if: steps.gate.outputs.run == 'true'
+        env:
+          STATICRYPT_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
+          SALT: ${{ secrets.STATICRYPT_SALT }}
+        run: |
+          npx --yes staticrypt@3.5.4 dist/index.html -d _site -s "$SALT" -c false --short --remember 30 \
+            --template-title "דרים איילנד · דשבורד ביקורות" \
+            --template-instructions "הדשבורד מוגן בסיסמה" \
+            --template-button "כניסה" \
+            --template-placeholder "סיסמה" \
+            --template-remember "לזכור אותי במכשיר הזה" \
+            --template-error "הסיסמה שגויה. נסו שוב." \
+            --template-color-primary "#0F3440" \
+            --template-color-secondary "#EDF2F1"
+          rm -rf dist
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.gate.outputs.run == 'true'
+        with:
+          path: _site
+
+      - name: פרסום
+        id: deploy
+        if: steps.gate.outputs.run == 'true'
+        uses: actions/deploy-pages@v4
