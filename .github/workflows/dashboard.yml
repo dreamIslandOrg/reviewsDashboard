@@ -2,13 +2,9 @@ name: עדכון הדשבורד
 
 on:
   schedule:
-    # GitHub מתזמן לפי UTC. כל זוג ריצות מכסה שעה אחת בשעון ישראל בחורף ובקיץ:
-    # 10:00 (אחרי עדכון "מדדי גוגל" ב־09:00) ו־14:30 (אחרי העדכון של 14:00).
-    # השלב הראשון מדלג על הריצה שלא נופלת על השעה הנכונה בישראל.
-    - cron: "0 7 * * *"
-    - cron: "0 8 * * *"
-    - cron: "30 11 * * *"
-    - cron: "30 12 * * *"
+    # GitHub מתזמן לפי UTC. 05:00–15:00 UTC מכסה את 08:00–17:00 בישראל גם בחורף וגם בקיץ.
+    # השלב הראשון מדלג על ריצות שנופלות מחוץ לשעות ולימים האלה בשעון ישראל.
+    - cron: "0 5-15 * * 0-4"
   workflow_dispatch: {}   # כפתור "Run workflow" לעדכון ידני
   push:
     branches: [main]
@@ -32,10 +28,11 @@ jobs:
       - name: בדיקת שעה בישראל
         id: gate
         run: |
-          HOUR=$(TZ=Asia/Jerusalem date +%H)
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "$HOUR" != "10" ] && [ "$HOUR" != "14" ]; then
+          HOUR=$(TZ=Asia/Jerusalem date +%-H)
+          DOW=$(TZ=Asia/Jerusalem date +%u)   # 7 = ראשון, 1–4 = שני עד חמישי
+          if [ "${{ github.event_name }}" = "schedule" ] && { [ "$HOUR" -lt 8 ] || [ "$HOUR" -gt 17 ] || [ "$DOW" = 5 ] || [ "$DOW" = 6 ]; }; then
             echo "run=false" >> "$GITHUB_OUTPUT"
-            echo "השעה בישראל היא $HOUR, מדלגים. הריצה המקבילה תעדכן בשעה הנכונה."
+            echo "בישראל עכשיו יום $DOW, שעה $HOUR. מחוץ לשעות העדכון, מדלגים."
           else
             echo "run=true" >> "$GITHUB_OUTPUT"
           fi
@@ -77,8 +74,8 @@ jobs:
             --template-placeholder "סיסמה" \
             --template-remember "לזכור אותי במכשיר הזה" \
             --template-error "הסיסמה שגויה. נסו שוב." \
-            --template-color-primary "#0F3440" \
-            --template-color-secondary "#EDF2F1"
+            --template-color-primary "#111827" \
+            --template-color-secondary "#F6F7F9"
           rm -rf dist
 
       - uses: actions/upload-pages-artifact@v3
